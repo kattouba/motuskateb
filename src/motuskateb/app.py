@@ -39,74 +39,45 @@ class motuskatebApp(toga.App):
         self.essais = 0
         self.historique = []
 
-        # Interface principale
-        main_box = toga.Box(style=Pack(direction=COLUMN, padding=10))
+        # Conteneurs principaux
+        self.main_container = toga.Box(style=Pack(direction=COLUMN, padding=10))
+        self.webview_container = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.webview_container.visible = False  # Masquer la WebView au début
 
-        # Sélection de la longueur du mot
+        # Widgets de l'interface principale
         self.longueur_label = toga.Label("Choisissez la longueur du mot :", style=Pack(padding=(0, 5)))
-        main_box.add(self.longueur_label)
-
         self.longueur_input = toga.TextInput(placeholder="Entre 5 et 9", style=Pack(padding=(0, 5)))
-        main_box.add(self.longueur_input)
-
-        # Bouton pour commencer le jeu
         self.commencer_button = toga.Button("Commencer", on_press=self.commencer_jeu, style=Pack(padding=(0, 5)))
-        main_box.add(self.commencer_button)
-
-        # Résultat
         self.resultat_label = toga.Label("", style=Pack(padding=(0, 5)))
-        main_box.add(self.resultat_label)
-
-        # Entrée pour les essais
         self.entree = toga.TextInput(placeholder="Entrez un mot", style=Pack(padding=(0, 5)))
-        main_box.add(self.entree)
-
-        # Bouton pour vérifier
         self.verifier_button = toga.Button("Vérifier", on_press=self.verifier_mot, style=Pack(padding=(0, 5)))
-        main_box.add(self.verifier_button)
-
-        # Historique des essais
         self.historique_label = toga.Label("", style=Pack(padding=(0, 5)))
-        main_box.add(self.historique_label)
+        self.playagain_button = toga.Button("Jouer une autre fois", on_press=self.commencer_jeu, style=Pack(padding=(0, 5)))
+        self.expliquer_button = toga.Button("Expliquer le mot", on_press=self.expliquer_mot, style=Pack(padding=(0, 5)))
+        self.expliquer_button.enabled = False
 
-        # Espace flexible pour pousser le bouton en bas
-        spacer = toga.Box(style=Pack(flex=1))
-        main_box.add(spacer)
+        # Ajouter les widgets à la boîte principale
+        self.main_container.add(self.longueur_label)
+        self.main_container.add(self.longueur_input)
+        self.main_container.add(self.commencer_button)
+        self.main_container.add(self.resultat_label)
+        self.main_container.add(self.entree)
+        self.main_container.add(self.verifier_button)
+        self.main_container.add(self.historique_label)
+        self.main_container.add(self.playagain_button)
+        self.main_container.add(self.expliquer_button)
 
-        # Bouton pour Jouer encore une fois
-        self.playagain_button = toga.Button(
-            "Jouer une autre fois", 
-            on_press=self.commencer_jeu, 
-            style=Pack(padding=(0, 5))
-        )
-        main_box.add(self.playagain_button)
-
-        # Bouton pour expliquer le mot
-        self.expliquer_button = toga.Button(
-            "Expliquer le mot",
-            on_press=self.expliquer_mot,
-            style=Pack(padding=(0, 5))
-        )
-        self.expliquer_button.enabled = False  # Désactivé par défaut
-        main_box.add(self.expliquer_button)
-
-        # Ajouter une WebView pour afficher les pages Web
+        # Widgets pour la WebView
         self.webview = toga.WebView(style=Pack(flex=1))
-        self.webview.visible = False
-        main_box.add(self.webview)
+        self.retour_button = toga.Button("Retour au jeu", on_press=self.retourner_jeu, style=Pack(padding=(0, 5)))
+        self.webview_container.add(self.webview)
+        self.webview_container.add(self.retour_button)
 
-        # Bouton pour revenir au jeu
-        self.retour_button = toga.Button(
-            "Retour au jeu",
-            on_press=self.retourner_jeu,
-            style=Pack(padding=(0, 5))
-        )
-        self.retour_button.visible = False
-        main_box.add(self.retour_button)
-
-        # Fenêtre principale
+        # Ajouter les conteneurs à la fenêtre principale
         self.main_window = toga.MainWindow(title="motuskateb")
-        self.main_window.content = main_box
+        self.main_window.content = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.main_window.content.add(self.main_container)
+        self.main_window.content.add(self.webview_container)
         self.main_window.show()
 
     def jouer_son(self, sound):
@@ -123,8 +94,7 @@ class motuskatebApp(toga.App):
         self.historique = []
         self.historique_label.text = ""
         self.expliquer_button.enabled = False  # Désactive le bouton expliquer
-        self.webview.visible = False
-        self.retour_button.visible = False
+        self.webview_container.visible = False
         
         # Jouer le Générique
         self.jouer_son(self.sound0)
@@ -213,6 +183,10 @@ class motuskatebApp(toga.App):
         self.historique = []
         self.historique_label.text = ""
 
+        # Masquer le conteneur principal
+        self.main_container.visible = False
+        self.webview_container.visible = True
+
         base_url = "https://www.littre.org/search/definitions?_hasdata=&f1="
         mot_a_expliquer = self.mot_secret
         url = f"{base_url}{mot_a_expliquer}"
@@ -231,8 +205,6 @@ class motuskatebApp(toga.App):
             """
             self.webview.url = url
             self.webview.on_load = lambda _: self.webview.evaluate_javascript(custom_script)
-            self.webview.visible = True
-            self.retour_button.visible = True
         except Exception as e:
             self.resultat_label.text = "Erreur : Impossible de charger l'explication."
             print(f"Erreur lors du chargement de l'URL : {e}")
@@ -242,8 +214,8 @@ class motuskatebApp(toga.App):
         Cache la WebView, efface son contenu et retourne à l'interface principale.
         """
         self.webview.set_content("", "<html><body></body></html>")  # Réinitialiser le contenu de la WebView
-        self.webview.visible = False
-        self.retour_button.visible = False
+        self.webview_container.visible = False
+        self.main_container.visible = True
 
 def main():       
     return motuskatebApp()
