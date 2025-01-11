@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "Motus Kateb"
 bundle = "com.example"
-version = "0.0.1"
+version = "0.0.2"
 url = "https://example.com/motuskateb"
 license.file = "LICENSE"
 author = "Kateb & Papa"
@@ -176,6 +176,8 @@ build_gradle_dependencies = [
     # Needed for MapView
     # "org.osmdroid:osmdroid-android:6.1.20",
 ]
+
+
 
 # Web deployments
 [tool.briefcase.app.motuskateb.web]
