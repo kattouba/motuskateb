@@ -8,13 +8,12 @@ Motuskateb est un jeu Android inspiré de Motus, développé avec Python et le f
 - **Améliorations prévues** :
   - Ajouter plus de fonctionnalités interactives.
   - Optimiser les performances pour les appareils Android.
-  - Étendre la base de données de mots.
-  - Proposerun dictionnaire qui explique les mots compliqués
   - améliorer l'interface.
 
 ## Fonctionnalités actuelles ##
 - Devinez des mots de 5 à 9 lettres en 10 essais maximum.
 - Profitez d'une interface simple et d'effets sonores.
+- Expliquer les mots compliqué avec le Littré.
 
 ## Structure du projet ##
 - `pyproject.toml` : Configuration pour Briefcase.
