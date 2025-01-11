@@ -1,9 +1,9 @@
 
-# Motuskateb
+# Motuskateb #
 
 Motuskateb est un jeu Android inspiré de Motus, développé avec Python et le framework **BeeWare**. Cette application utilise **Briefcase** pour le déploiement sur Android.
 
-## Statut du projet
+## Statut du projet ##
 - **Version actuelle** : 1.0 (première version fonctionnelle)
 - **Améliorations prévues** :
   - Ajouter plus de fonctionnalités interactives.
@@ -12,18 +12,18 @@ Motuskateb est un jeu Android inspiré de Motus, développé avec Python et le f
   - Proposerun dictionnaire qui explique les mots compliqués
   - améliorer l'interface.
 
-## Fonctionnalités actuelles
+## Fonctionnalités actuelles ##
 - Devinez des mots de 5 à 9 lettres en 10 essais maximum.
 - Profitez d'une interface simple et d'effets sonores.
 
-## Structure du projet
+## Structure du projet ##
 - `pyproject.toml` : Configuration pour Briefcase.
 - `src/` : Code source et ressources de l'application :
   - **Ressources** : Sons (`.mp3`) et fichiers de mots (`.txt`).
   - `app.py` : Fichier principal contenant le code de l'application.
 - **Icônes** : Icone de l'application.
 
-## Installation et déploiement
+## Installation et déploiement ##
 1. Clonez le dépôt :
    ```bash
    git clone https://github.com/kattouba/motuskateb.git
@@ -43,13 +43,13 @@ Motuskateb est un jeu Android inspiré de Motus, développé avec Python et le f
    briefcase run android
    ```
 
-## Contribuer
+## Contribuer ##
 Les contributions sont les bienvenues ! Si vous avez des suggestions ou des corrections, ouvrez une issue ou soumettez une **Pull Request**.
 
-## Licence
+## Licence ##
 Ce projet est publié sous la licence [MIT](https://opensource.org/licenses/MIT). Vous êtes libre de l'utiliser et de le modifier.
 
-## Auteur
+## Auteurs ##
 Développé par **KATEB & Papa**. Cette première version du jeu sera améliorée au fil du temps. Restez connectés pour les prochaines mises à jour !
 
 
